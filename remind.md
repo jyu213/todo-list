@@ -1,6 +1,5 @@
 ## update todo list 
-* add tag/category
-    - only can add one tag/
+
 * add date
 * add auto post email
 * add color for easy recognize
