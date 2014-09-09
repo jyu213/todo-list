@@ -4,6 +4,7 @@
 * add notice clock
 * add sub list
 * can change tag name?
+* tag search module => hash change
 === 
 * do mobile/touch event?
 * move storage to node server
