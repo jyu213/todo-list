@@ -68,10 +68,12 @@ body {
 }
 
 #todo-list li {
-	padding: 18px 20px 18px 0;
 	position: relative;
 	font-size: 24px;
 	border-bottom: 1px solid #cccccc;
+}
+#todo-list li .view{
+	padding: 18px 20px 18px 0;
 }
 #todo-list li .tag{
 	float: right;
@@ -79,6 +81,45 @@ body {
 	font-size: 18px; 
 	color: #999;
 }
+#todo-list li .date{
+	float: right;
+	margin-right: 20px; 
+	font-size: 18px; 
+	color: #999;
+}
+#todo-list li .color{
+	float: right;
+	margin-right: 20px; 
+	width: 20px; height: 20px; 
+	text-indent: -99em;
+	cursor: pointer;
+	background: #fff;
+	border: 1px solid #ccc;
+	border-radius: 150px;
+}
+.color-box{
+	display: none;
+	position: absolute; top: -30px; right: 0;
+	width: 150px;
+	padding: 1% 2%;
+	overflow: hidden;
+	border: 1px solid #ddd;
+}
+.color-box .color-span{
+	display: inline-block; float: left;
+	margin-right: 2%;
+	width: 20px; height: 20px; 
+	border: 1px solid #ddd;
+	border-radius: 150px;
+
+	background: #fff;
+}
+#todo-list .color-blue, .color-blue .color{background: #0ff;}
+#todo-list .color-white, .color-white .color{background: #fff;}
+#todo-list .color-black, .color-black .color{background: #000;}
+#todo-list .color-red, .color-red .color{background: #f00;}
+#todo-list .color-green, .color-green .color{background: #0f0;}
+#todo-list .color-silver, .color-silver .color{background: #c0c0c0;}
 
 #todo-list li:last-child {
 	border-bottom: none;

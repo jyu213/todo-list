@@ -56,10 +56,20 @@
   <!-- Templates -->
 
   <script type="text/template" id="item-template">
-    <div class="view">
+    <div class="view color-<%= color %>">
       <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
       <label><%- title %></label>
+      <span class="color J-change-color">color</span>
+      <div class="color-box">
+        <a href="javascript:;" class="color-span color-blue" data-color="blue"></a>
+        <a href="javascript:;" class="color-span color-white" data-color="white"></a>
+        <a href="javascript:;" class="color-span color-black" data-color="black"></a>
+        <a href="javascript:;" class="color-span color-red" data-color="red"></a>
+        <a href="javascript:;" class="color-span color-green" data-color="green"></a>
+        <a href="javascript:;" class="color-span color-silver" data-color="silver"></a>
+      </div>
       <span class="tag"><%- tag %></span>
+      <span class="date"><%- date %></span>
       <a class="destroy"></a>
     </div>
     <input class="edit" type="text" value="<%- title %>" />

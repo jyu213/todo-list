@@ -18,6 +18,7 @@ $(function(){
 				title: "empty todo...",
 				tag: '',
 				date: '',
+				color: '',
 				order: Todos.nextOrder(),
 				done: false
 			};
@@ -86,7 +87,9 @@ $(function(){
 			"dblclick .view"  : "edit",
 			"click a.destroy" : "clear",
 			"keypress .edit"  : "updateOnEnter",
-			"blur .edit"      : "close"
+			"blur .edit"      : "close",
+			"click .J-change-color": "showColor",
+			"click .color-box a": "changeColor"
 		},
 
 		// The TodoView listens for changes to its model, re-rendering. Since there's
@@ -103,6 +106,9 @@ $(function(){
 			this.$el.html(this.template(this.model.toJSON()));
 			this.$el.toggleClass('done', this.model.get('done'));
 			this.input = this.$('.edit');
+
+			this.setColor();
+
 			return this;
 		},
 
@@ -136,6 +142,23 @@ $(function(){
 		// Remove the item, destroy the model.
 		clear: function() {
 			this.model.destroy();
+		},
+
+		changeColor: function(e){
+			var color = $(e.target).data('color'),
+				box = this.$el.find('.color-box');
+			this.model.save({color: color});
+			box.hide();
+		},
+		showColor: function(e){
+			// var box = $(e.target).closest('.view').find('.color-box');
+			this.$el.find('.color-box').show();
+		},
+		setColor: function(){
+			var box = this.$el.find('.color-box');
+			$.each( box.find('.color-span'), function(i, e){
+				$(this).addClass($(this).data('color'));
+			});
 		}
 
 	});
@@ -322,11 +345,13 @@ $(function(){
 		// persisting it to *localStorage*.
 		createOnEnter: function(e) {
 			var val = this.input.val(),
-				tag = this.$('#tag-box .checked .txt').text() || '';
+				tag = this.$('#tag-box .checked .txt').text() || '',
+				d = new Date(),
+				date = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate();
 			if (e.keyCode != 13) return;
 			if (!val) return;
 
-			Todos.create({title: val, tag: tag});
+			Todos.create({title: val, tag: tag, date: date});
 			this.input.val('');
 		},
 
