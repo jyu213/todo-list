@@ -117,6 +117,10 @@ body {
 
 	background: #fff;
 }
+.note-box{
+	border-top: 1px dotted #ccc;
+	padding: 2% 0 0; margin: 2% 0 0;
+}
 #todo-list .color-blue, .color-blue .color{background: #0ff;}
 #todo-list .color-white, .color-white .color{background: #fff;}
 #todo-list .color-black, .color-black .color{background: #000;}

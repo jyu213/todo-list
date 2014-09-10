@@ -1,8 +1,8 @@
 ## update todo list 
-* add auto post email
 * add detail notes 
-* add sub list
+* add sub list => done , un checked
 * add notice clock
+* add auto post email
 * 
 * can change tag name?
 * tag search module => hash change

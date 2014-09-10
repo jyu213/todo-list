@@ -19,6 +19,7 @@ $(function(){
 				tag: '',
 				date: '',
 				color: '',
+				note: '',
 				// id: '',
 				parentId: '',
 				curParentId: '',
@@ -94,6 +95,9 @@ $(function(){
 			"keypress .edit"  : "updateOnEnter",
 			"blur .edit"      : "close",
 			// "click .detail": "showDetail",
+			"click .note": "showNote",
+			"keypress .note-edit": "updateNote",
+			"blur .note-edit": "closeNote",
 			"click .J-change-color": "showColor",
 			"click .color-box a": "changeColor"
 		},
@@ -172,6 +176,24 @@ $(function(){
 			$.each( box.find('.color-span'), function(i, e){
 				$(this).addClass($(this).data('color'));
 			});
+		},
+
+		showNote: function(){
+			this.$('.note-box').show();
+			this.$('.note-box .note-edit').val( this.$('.note-txt').text() ).toggle();
+			this.$('.note-txt').toggle();
+		},
+		updateNote: function(e){
+			if( e.keyCode == 13 ) this.closeNote();
+		},
+		closeNote: function(){
+			var value = this.$('.note-edit').val();
+			console.log(value)
+			// if( !value ){
+
+			// }else{
+				this.model.save({note: value});
+			// }
 		}
 
 	});
