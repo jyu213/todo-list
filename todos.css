@@ -13,6 +13,9 @@ body {
 	margin: 0 auto;
 	-webkit-font-smoothing: antialiased;
 }
+.go-back{
+	cursor: pointer;
+}
 
 #todoapp {
 	background: #fff;

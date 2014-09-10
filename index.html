@@ -56,6 +56,14 @@
   <!-- Templates -->
 
   <script type="text/template" id="item-template">
+    <% if(curParentId != ''){ %>
+      <% if( curParentId == parentId ){ %>
+      
+      <% } %>
+    <% }else{ %>
+
+    <% } %>
+
     <div class="view color-<%= color %>">
       <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
       <label><%- title %></label>
@@ -68,11 +76,13 @@
         <a href="javascript:;" class="color-span color-green" data-color="green"></a>
         <a href="javascript:;" class="color-span color-silver" data-color="silver"></a>
       </div>
+      <a href="#/id/<%= id %>" class="detail">detail</a>
       <span class="tag"><%- tag %></span>
       <span class="date"><%- date %></span>
       <a class="destroy"></a>
     </div>
     <input class="edit" type="text" value="<%- title %>" />
+    
   </script>
 
   <script type="text/javascript" id="tag-template">

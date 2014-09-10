@@ -19,6 +19,9 @@ $(function(){
 				tag: '',
 				date: '',
 				color: '',
+				// id: '',
+				parentId: '',
+				curParentId: '',
 				order: Todos.nextOrder(),
 				done: false
 			};
@@ -45,13 +48,15 @@ $(function(){
 		localStorage: new Backbone.LocalStorage("todos-backbone"),
 
 		// Filter down the list of all todo items that are finished.
-		done: function() {
-			return this.where({done: true});
+		done: function(parentId) {
+			parentId = parentId || '';
+			return this.where({done: true, parentId: parentId});
 		},
 
 		// Filter down the list to only todo items that are still not finished.
-		remaining: function() {
-			return this.where({done: false});
+		remaining: function(parentId) {
+			parentId = parentId || '';
+			return this.where({done: false, parentId: parentId});
 		},
 
 		// We keep the Todos in sequential order, despite being saved by unordered
@@ -88,6 +93,7 @@ $(function(){
 			"click a.destroy" : "clear",
 			"keypress .edit"  : "updateOnEnter",
 			"blur .edit"      : "close",
+			// "click .detail": "showDetail",
 			"click .J-change-color": "showColor",
 			"click .color-box a": "changeColor"
 		},
@@ -103,6 +109,13 @@ $(function(){
 
 		// Re-render the titles of the todo item.
 		render: function() {
+			// console.log(Todos, this.model.toJSON() , 'model')
+
+			// reset localStorage id
+			this.model.set({id: this.model.id});
+			// this.model.set({curParentId: })
+
+
 			this.$el.html(this.template(this.model.toJSON()));
 			this.$el.toggleClass('done', this.model.get('done'));
 			this.input = this.$('.edit');
@@ -289,7 +302,8 @@ $(function(){
 			"keypress #new-todo":  "createOnEnter",
 			"click #clear-completed": "clearCompleted",
 			"click #toggle-all": "toggleAllComplete",
-			"click #new-add-tag": "toggleTag"
+			"click #new-add-tag": "toggleTag",
+			"click .go-back": "goBack"
 		},
 
 		// At initialization we bind to the relevant events on the `Todos`
@@ -302,20 +316,30 @@ $(function(){
 
 			this.listenTo(Todos, 'add', this.addOne);
 			this.listenTo(Todos, 'reset', this.addAll);
-			this.listenTo(Todos, 'all', this.render);
+			this.listenTo(Todos, 'change', this.render);
+			// this.listenTo(Todos, 'all', this.render);
 
+			this.headerTitle = this.$('header h1');
 			this.footer = this.$('footer');
 			this.main = $('#main');
 
+			this.parentId = this.parentId || '';
+			// console.log( this.parentId ,' parentId' )
+
 			Todos.fetch();
+
+			// this.headerTitle.html('Todos').removeClass('go-back');
+			this.render();
 
 		},
 
 		// Re-rendering the App just means refreshing the statistics -- the rest
 		// of the app doesn't change.
-		render: function() {
-			var done = Todos.done().length;
-			var remaining = Todos.remaining().length;
+		render: function(model) {
+			console.log('this is app render', arguments)
+			var _self = this;
+			var done = Todos.done(this.parentId).length;
+			var remaining = Todos.remaining(this.parentId).length;
 
 			if (Todos.length) {
 				this.main.show();
@@ -327,18 +351,41 @@ $(function(){
 			}
 
 			this.allCheckbox.checked = !remaining;
+
+			$.each(Todos.models, function(i, model){
+				if( model.id === _self.parentId ){
+					_self.headerTitle.html( model.get('title') ).addClass('go-back');
+				}else{
+					_self.headerTitle.html('Todos').removeClass('go-back');
+				}
+				return false;
+			});
+			// _self.headerTitle.html('Todos').removeClass('go-back');
 		},
 
 		// Add a single todo item to the list by creating a view for it, and
 		// appending its element to the `<ul>`.
 		addOne: function(todo) {
+			var parentId = todo.get('parentId');
+			// todo.id === this.parentId && this.headerTitle.html( todo.get('title') ).addClass('go-back');
+
+			// console.log( todo, todo.toJSON() ,this.parentId)
+			// remove un sub child
+			if( (this.parentId !== '' && this.parentId !== parentId) 
+				|| (this.parentId === '' && parentId !== '') ){
+				return false;
+			}
+
 			var view = new TodoView({model: todo});
-			this.$("#todo-list").append(view.render().el);
+			this.$("#todo-list").append(view.render().el);	
+			// this.render(todo);
 		},
 
 		// Add all items in the **Todos** collection at once.
 		addAll: function() {
+			console.log('this is add all', Todos)
 			Todos.each(this.addOne, this);
+			this.render();
 		},
 
 		// If you hit return in the main input field, create new **Todo** model,
@@ -351,7 +398,8 @@ $(function(){
 			if (e.keyCode != 13) return;
 			if (!val) return;
 
-			Todos.create({title: val, tag: tag, date: date});
+			// console.log(this.parentId, Todos)
+			Todos.create({title: val, tag: tag, date: date, parentId: this.parentId});
 			this.input.val('');
 		},
 
@@ -372,10 +420,35 @@ $(function(){
 				this.tagView = new TagView;
 				this.tagView.render();
 			}
+		},
+
+		goBack: function(){
+			location.href = location.href.split('#')[0];
+		}
+	});
+	
+	var Router = Backbone.Router.extend({
+		routes: {
+			'id/:query': 'id',
+			'tag/:query': 'tag'
+		},
+		id: function(id){
+			App.parentId = id;
+
+			$("#todo-list").html('');
+			// @TODO; not expect way to render
+			App.addAll();
+
+			// Todos.fetch();
+		},
+		tag: function(){
+			console.log( arguments, 'this is tag fn')
 		}
 	});
 
-	// Finally, we kick things off by creating the **App**.
 	var App = new AppView;
+
+	var pageRouter = new Router;
+	Backbone.history.start();
 
 });
