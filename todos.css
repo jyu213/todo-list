@@ -13,9 +13,30 @@ body {
 	margin: 0 auto;
 	-webkit-font-smoothing: antialiased;
 }
+.hidden{display: none;}
 .go-back{
 	cursor: pointer;
 }
+.ui-icon{
+	display: inline-block;
+	width: 25px; height: 25px; 
+	text-indent: -99em; overflow: hidden;
+	background: url(images/icon.png) no-repeat;
+	background-size: 100%;
+}
+/*.btn-menu{
+	background-position: center -168px;
+}*/
+.btn-destroy{
+	background-position: center -124px;
+}
+.btn-detail{
+	background-position: center -215px;
+}
+.btn-note{
+	background-position: center -40px;
+}
+
 
 #todoapp {
 	background: #fff;
@@ -75,12 +96,16 @@ body {
 	font-size: 24px;
 	border-bottom: 1px solid #cccccc;
 }
+#todo-list li .toggle{
+	position: relative; top: -5px;
+}
+
 #todo-list li .view{
-	padding: 18px 20px 18px 0;
+	padding: 18px 0 18px 0;
 }
 #todo-list li .tag{
 	float: right;
-	margin-right: 20px; 
+	margin-left: 20px; 
 	font-size: 18px; 
 	color: #999;
 }
@@ -91,9 +116,9 @@ body {
 	color: #999;
 }
 #todo-list li .color{
-	float: right;
-	margin-right: 20px; 
-	width: 20px; height: 20px; 
+	/*float: right;*/
+	/*margin-right: 20px; */
+	width: 24px; height: 24px; 
 	text-indent: -99em;
 	cursor: pointer;
 	background: #fff;
@@ -118,8 +143,16 @@ body {
 	background: #fff;
 }
 .note-box{
-	border-top: 1px dotted #ccc;
-	padding: 2% 0 0; margin: 2% 0 0;
+	/*border-top: 1px dotted #ccc;*/
+	padding: 2% 0 0 5%; 
+	/*margin: 2% 0 0;*/
+	font-size: 16px; color: #888;
+}
+.note-edit{
+	padding: 1%;
+	width: 98%; height: 60px;
+	font-size: 14px;
+	border: 1px solid #ddd;
 }
 #todo-list .color-blue, .color-blue .color{background: #0ff;}
 #todo-list .color-white, .color-white .color{background: #fff;}
@@ -137,23 +170,16 @@ body {
 	text-decoration: line-through;
 }
 
-#todo-list .destroy {
-	position: absolute;
-	right: 5px;
-	top: 20px;
-	display: none;
+#todo-list a{
 	cursor: pointer;
-	width: 20px;
-	height: 20px;
-	background: url(destroy.png) no-repeat;
 }
-
-#todo-list li:hover .destroy {
+#todo-list .btn-icon{
+	display: none;
+	float: right;
+	margin-left: 2%;
+}
+#todo-list li:hover .btn-icon{
   	display: block;
-}
-
-#todo-list .destroy:hover {
-  	background-position: 0 -20px;
 }
 
 #todo-list li.editing {
@@ -200,14 +226,18 @@ body {
 	-o-border-radius: 0 0 5px 5px;
 	border-radius: 0 0 5px 5px;
 }
-#new-add-tag{	
+#todo-focus{
+	position: relative;
+}
+#new-add-tag{
+	position: absolute; top: 3px; right: 0;
 	display: inline-block;
 	padding: 6px 10px;
 	line-height: 1.4em;
 	text-decoration: none;
-	color: #fff; cursor: pointer;
+	color: #fff; cursor: pointer; font-size: 24px;
 	background: #428bca;
-	border-radius: 8px;
+	/*border-radius: 8px;*/
 }
 #tag-box{
 	display: none;
@@ -217,7 +247,7 @@ body {
 	display: inline-block;
 	text-decoration: none;
 	line-height: 1.6;
-	color: #333;
+	color: #333; font-size: 18px;
 }
 #tag-box a .delete{
 	display: none;
@@ -281,13 +311,3 @@ body {
 	color: #336699;
 }
 
-#credits {
-	margin: 30px auto;
-	color: #999;
-	text-shadow: rgba(255, 255, 255, 0.8) 0 1px 0;
-	text-align: center;
-}
-
-#credits a {
-	color: #888;
-}

@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Backbone.js Todos</title>
+  <title>Todo List</title>
   <link rel="stylesheet" href="todos.css"/>
 </head>
 
@@ -13,12 +13,15 @@
 
     <header>
       <h1>Todos</h1>
-      <input id="new-todo" type="text" placeholder="What needs to be done?" />
 
-      <a href="javascript:;" id="new-add-tag">add tag</a>
-      <div id="tag-box">
-        <div id="tag-list"></div>
-        <input type="text" id="new-tag" placeholder="you can only use one tag for the list" />
+      <div id="todo-focus">
+        <input id="new-todo" type="text" placeholder="What needs to be done?" />
+
+        <a href="javascript:;" id="new-add-tag">add tag</a>
+        <div id="tag-box">
+          <div id="tag-list"></div>
+          <input type="text" id="new-tag" placeholder="you can only use one tag for the list" />
+        </div>  
       </div>
     </header>
 
@@ -39,12 +42,6 @@
     Double-click to edit a todo.
   </div>
 
-  <div id="credits">
-    Created by
-    <br />
-    <a href="http://jgn.me/">J&eacute;r&ocirc;me Gravel-Niquet</a>.
-    <br />Rewritten by: <a href="http://addyosmani.github.com/todomvc">TodoMVC</a>.
-  </div>
 
   <script src="vendor/json2.js"></script>
   <script src="vendor/jquery.js"></script>
@@ -59,7 +56,10 @@
     <div class="view color-<%= color %>">
       <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
       <label><%- title %></label>
-      <span class="color J-change-color">color</span>
+
+      <a class="ui-icon btn-icon btn-destroy">delete</a>
+      
+      <a class="btn-icon color btn-change-color">color</a>
       <div class="color-box">
         <a href="javascript:;" class="color-span color-blue" data-color="blue"></a>
         <a href="javascript:;" class="color-span color-white" data-color="white"></a>
@@ -68,18 +68,16 @@
         <a href="javascript:;" class="color-span color-green" data-color="green"></a>
         <a href="javascript:;" class="color-span color-silver" data-color="silver"></a>
       </div>
-      <a href="#/id/<%= id %>" class="detail">detail</a>
-      <a href="javascript:;" class="note">note</a>
+      <a href="#/id/<%= id %>" class="ui-icon btn-icon btn-detail">detail</a>
+      <a class="ui-icon btn-icon btn-note">note</a>
       <span class="tag"><%- tag %></span>
-      <span class="date"><%- date %></span>
-      <a class="destroy"></a>
+      
       <div class="note-box" style="display:<%= note == '' ? 'none' : 'block' %>;" >
         <div class="note-txt"><%- note %></div>
         <textarea class="note-edit" style="display: none;"></textarea>
       </div>
     </div>
     <input class="edit" type="text" value="<%- title %>" />
-    
   </script>
 
   <script type="text/javascript" id="tag-template">

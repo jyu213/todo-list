@@ -91,14 +91,13 @@ $(function(){
 		events: {
 			"click .toggle"   : "toggleDone",
 			"dblclick .view"  : "edit",
-			"click a.destroy" : "clear",
+			"click a.btn-destroy" : "clear",
 			"keypress .edit"  : "updateOnEnter",
 			"blur .edit"      : "close",
-			// "click .detail": "showDetail",
-			"click .note": "showNote",
+			"click .btn-note": "showNote",
 			"keypress .note-edit": "updateNote",
 			"blur .note-edit": "closeNote",
-			"click .J-change-color": "showColor",
+			"click .btn-change-color": "showColor",
 			"click .color-box a": "changeColor"
 		},
 
@@ -188,12 +187,7 @@ $(function(){
 		},
 		closeNote: function(){
 			var value = this.$('.note-edit').val();
-			console.log(value)
-			// if( !value ){
-
-			// }else{
-				this.model.save({note: value});
-			// }
+			this.model.save({note: value});
 		}
 
 	});

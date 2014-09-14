@@ -1,5 +1,4 @@
-## update todo list 
-* add detail notes 
+## update todo list  
 * add sub list => done , un checked
 * add notice clock
 * add auto post email
