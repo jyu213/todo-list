@@ -35,7 +35,6 @@
       <a id="clear-completed">Clear completed</a>
       <div id="todo-count"></div>
     </footer>
-
   </div>
 
   <div id="instructions">
@@ -48,6 +47,7 @@
   <script src="vendor/underscore.js"></script>
   <script src="vendor/backbone.js"></script>
   <script src="vendor/backbone.localStorage.js"></script>
+  <script src="vendor/notify.js"></script>
   <script src="todos.js"></script>
 
   <!-- Templates -->
@@ -70,6 +70,7 @@
       </div>
       <a href="#/id/<%= id %>" class="ui-icon btn-icon btn-detail">detail</a>
       <a class="ui-icon btn-icon btn-note">note</a>
+      <a class="ui-icon btn-icon btn-clock" data-time="<%= remindDate %>">clock</a>
       <span class="tag"><%- tag %></span>
       
       <div class="note-box" style="display:<%= note == '' ? 'none' : 'block' %>;" >
@@ -91,6 +92,22 @@
       <a id="clear-completed">Clear <%= done %> completed <%= done == 1 ? 'item' : 'items' %></a>
     <% } %>
     <div class="todo-count"><b><%= remaining %></b> <%= remaining == 1 ? 'item' : 'items' %> left</div>
+  </script>
+
+  <script type="text/template" id="clock-modal">
+    <div id="clock-box" class="modal">
+      <div class="modal-title"><h3><%= title %></h3><span class="modal-close">X</span></div>
+      <div class="modal-content">
+        <div class="clock-box">
+          <input type="datetime-local" class="date-pick s-input" value="<%= remindDate %>" />
+          <div class="repeat" style="display: none;">
+            <label for=""><input type="checkbox" />Monday</label>
+          </div>
+          <a href="javascript:;" class="ui-btn btn-submit"><span>submit</span></a>
+          <a href="javascript:;" class="ui-btn btn-cancel"><span>cancel</span></a>
+        </div>
+      </div>
+    </div>
   </script>
 
   </body>
