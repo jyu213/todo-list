@@ -18,6 +18,7 @@ $(function(){
 				title: "empty todo...",
 				tag: '',
 				date: '',
+				remindDate: '',
 				color: '',
 				note: '',
 				// id: '',
@@ -98,7 +99,10 @@ $(function(){
 			"keypress .note-edit": "updateNote",
 			"blur .note-edit": "closeNote",
 			"click .btn-change-color": "showColor",
-			"click .color-box a": "changeColor"
+			"click .color-box a": "changeColor",
+			"click .btn-clock": "showClock",
+			"click .modal-close, .btn-cancel": "hideModal",
+			"click .btn-submit": "subForm"
 		},
 
 		// The TodoView listens for changes to its model, re-rendering. Since there's
@@ -124,6 +128,7 @@ $(function(){
 			this.input = this.$('.edit');
 
 			this.setColor();
+			this.setRemind();
 
 			return this;
 		},
@@ -188,6 +193,87 @@ $(function(){
 		closeNote: function(){
 			var value = this.$('.note-edit').val();
 			this.model.save({note: value});
+		},
+
+		showClock: function(){
+			if( Notify.isSupported ){
+				if(Notify.needsPermission){
+					Notify.requestPermission();
+				}
+			}else{
+				alert(' your Browser is not support the notification! ');
+				return false;
+			}
+
+			// $('#todoapp')
+			this.$el.append( _.template( $('#clock-modal').html(), this.model.toJSON() ) );
+			this.$el.find('.view').hide();
+
+			// set today date if is none;
+			// if( this.$el.find('.date-pick').val() === '' ){
+			// 	var d = new Date(),	
+			// 		val = this.toDateInputValue.call(d) + 'T' + this.checkTime(d.getHours()) + ':' + this.checkTime(d.getMinutes());
+			// 	console.log( this.toDateInputValue.call(d) ,val)
+			// 	this.$el.find('.date-pick').val( val );
+			// }
+		},
+		hideModal: function(){
+			this.$el.find('.view').show();
+			$('.modal').remove();
+		},
+		subForm: function(){
+			var val = this.$el.find('#clock-box .date-pick').val();
+			
+			if( val !== ''){
+				this.model.save({remindDate: val});
+			}
+		},
+		setRemind: function(){
+			var val = this.$el.find('.btn-clock').data('time'),
+				title = this.model.get('title'),
+				note = this.model.get('note'),
+				d = new Date(),
+				curDay = new Date(),
+				date, time, timeDur;
+			// console.log(val)
+			if( val === '' ){
+				return false;
+			}else{
+				date = val.split('T')[0].split('-');
+				time = val.split('T')[1].split(':');
+
+				d.setFullYear(date[0], date[1]-1, date[2]);
+				d.setHours(time[0], time[1]);
+				timeDur = d.getTime() - curDay.getTime();
+
+				var myNotification = new Notify(title, {
+					body: note,
+					timeout: 3,
+					notifyClick: function(){
+						console.log('notification is clicked');
+					}
+				});
+
+				if( timeDur >=0 ){
+					var s = setTimeout(function(){
+						myNotification.show();
+						clearTimeout(s);
+					}, timeDur);
+				}
+				
+			}
+		},
+
+		toDateInputValue: function() {
+		    var local = new Date(this);
+		    local.setMinutes(this.getMinutes() - this.getTimezoneOffset());
+		    return local.toJSON().slice(0,10);
+		},
+		checkTime: function(i){
+			if( i < 10 ){
+				i = '0' + i;
+			}
+			return i;
 		}
 
 	});

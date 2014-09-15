@@ -1,5 +1,5 @@
 html,
-body {
+body, h3{
 	margin: 0;
 	padding: 0;
 }
@@ -36,9 +36,13 @@ body {
 .btn-note{
 	background-position: center -40px;
 }
+.btn-clock{
+	background-position: center -257px;
+}
 
 
 #todoapp {
+	position: relative;
 	background: #fff;
 	padding: 20px;
 	margin-bottom: 40px;
@@ -311,3 +315,39 @@ body {
 	color: #336699;
 }
 
+.ui-btn{
+	padding: 0 3%;
+	display: inline-block;
+	height: 30px; line-height: 30px;
+	text-align: center; color: #fff; font-size: 18px; text-decoration: none;
+	background: #428bca;
+}
+.s-input{
+	margin: 0; padding: 0 2%;
+	height: 28px; line-height: 28px;
+	vertical-align: top; font-size: 14px;
+}
+
+.modal{
+	/*position: absolute; top: 0; left: 0; right: 0; bottom: 0;*/
+	background: #fcfcfc;
+}
+.modal .modal-title{
+	padding: 0 3%;
+	height: 40px; line-height: 40px;
+	overflow: hidden; font-size: 16px;
+	border-bottom: 1px solid #ccc;
+}
+.modal-close{
+	position: absolute; top: 0; right: 0;
+	width: 40px; height: 40px; line-height: 40px;
+	text-align: center;
+	cursor: pointer;
+}
+.modal-close:hover{
+	background: #cdcdcd;
+}
+.modal-content{
+	padding: 3%;
+	
+}
