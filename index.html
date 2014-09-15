@@ -53,7 +53,7 @@
   <!-- Templates -->
 
   <script type="text/template" id="item-template">
-    <div class="view color-<%= color %>">
+    <div class="view <% if(!!color){ %>color-<%= color %> <% } %>">
       <input class="toggle" type="checkbox" <%= done ? 'checked="checked"' : '' %> />
       <label><%- title %></label>
 
