@@ -340,6 +340,7 @@ $(function(){
 			this.main = $('#main');
 
 			this.parentId = this.parentId || '';
+			this.tag = this.tag || '';
 			// console.log( this.parentId ,' parentId' )
 
 			Todos.fetch();
@@ -382,13 +383,18 @@ $(function(){
 		// Add a single todo item to the list by creating a view for it, and
 		// appending its element to the `<ul>`.
 		addOne: function(todo) {
-			var parentId = todo.get('parentId');
+			var parentId = todo.get('parentId'),
+				tag = todo.get('tag');
 			// todo.id === this.parentId && this.headerTitle.html( todo.get('title') ).addClass('go-back');
 
 			// console.log( todo, todo.toJSON() ,this.parentId)
 			// remove un sub child
 			if( (this.parentId !== '' && this.parentId !== parentId) 
 				|| (this.parentId === '' && parentId !== '') ){
+				return false;
+			}
+
+			if( this.tag !== '' && this.tag !== tag ){
 				return false;
 			}
 
@@ -457,8 +463,13 @@ $(function(){
 
 			// Todos.fetch();
 		},
-		tag: function(){
-			console.log( arguments, 'this is tag fn')
+		tag: function(tag){
+			console.log(tag, 'this is tag fn');
+
+			App.tag = tag;
+
+			$('#todo-list').html('');
+			App.addAll();
 		}
 	});
 
