@@ -458,12 +458,11 @@ $(function(){
 			$.each(Todos.models, function(i, model){
 				if( model.id === _self.parentId ){
 					_self.headerTitle.html( model.get('title') ).addClass('go-back');
+					return false;
 				}else{
 					_self.headerTitle.html('Todos').removeClass('go-back');
 				}
-				return false;
 			});
-			// _self.headerTitle.html('Todos').removeClass('go-back');
 		},
 
 		// Add a single todo item to the list by creating a view for it, and
@@ -473,7 +472,8 @@ $(function(){
 				tag = todo.get('tag');
 			// todo.id === this.parentId && this.headerTitle.html( todo.get('title') ).addClass('go-back');
 
-			// console.log( todo, todo.toJSON() ,this.parentId)
+			// console.log( todo, todo.toJSON(),parentId ,this.parentId)
+			console.log( this.parentId ,' ---' , parentId )
 			// remove un sub child
 			if( (this.parentId !== '' && this.parentId !== parentId) 
 				|| (this.parentId === '' && parentId !== '') ){
